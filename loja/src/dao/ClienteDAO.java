@@ -5,10 +5,12 @@ import loja.src.domain.Cliente;
 
 public class ClienteDAO extends GenericDAO implements IClienteDAO {
 
+  @SuppressWarnings("unchecked")
   public Cliente create(String id) {
     return null;
   }
 
+  @SuppressWarnings("unchecked")
   public Cliente read(String id) {
     return null;
   }

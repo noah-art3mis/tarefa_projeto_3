@@ -13,11 +13,13 @@ public class ClienteService extends GenericService implements IClienteService {
     this.clienteDAO = clienteDAO;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Cliente create(String id) {
     return clienteDAO.create(id);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Cliente read(String id) {
     return clienteDAO.read(id);
