@@ -2,19 +2,19 @@ package loja.src.domain;
 
 public class Produto {
 
-  private int id;
+  private Integer id;
   private String nome;
-  private double preço;
+  private Float preço;
 
   // Constructors
   public Produto() {}
 
-  public Produto(String nome, double preço) {
+  public Produto(String nome, Float preço) {
     this.nome = nome;
     this.preço = preço;
   }
 
-  public Produto(int id, String nome, double preço) {
+  public Produto(int id, String nome, Float preço) {
     this.id = id;
     this.nome = nome;
     this.preço = preço;
@@ -37,11 +37,11 @@ public class Produto {
     this.nome = nome;
   }
 
-  public double getPreço() {
+  public Float getPreço() {
     return preço;
   }
 
-  public void setPreço(double preço) {
+  public void setPreço(Float preço) {
     this.preço = preço;
   }
 }

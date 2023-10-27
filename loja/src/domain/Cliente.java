@@ -3,16 +3,16 @@ package loja.src.domain;
 public class Cliente {
 
   private Long id;
-  private String cpf;
+  private Long cpf;
   private String nome;
 
-  public Cliente(String cpf, String nome) {
+  public Cliente(Long cpf, String nome) {
     this.cpf = cpf;
     this.nome = nome;
     this.id = null;
   }
 
-  public Cliente(String cpf, String nome, Long id) {
+  public Cliente(Long cpf, String nome, Long id) {
     this.cpf = cpf;
     this.nome = nome;
     this.id = id;
@@ -26,11 +26,11 @@ public class Cliente {
     this.id = id;
   }
 
-  public String getCpf() {
+  public Long getCpf() {
     return cpf;
   }
 
-  public void setCpf(String cpf) {
+  public void setCpf(Long cpf) {
     this.cpf = cpf;
   }
 

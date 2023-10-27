@@ -13,11 +13,11 @@ import loja.src.domain.Cliente;
 public class ClienteDAO extends GenericDAO implements IClienteDAO {
 
   private String getSqlCreate() {
-    return "INSERT INTO Clientes (cpf, nome) VALUES (?, ?)";
+    return "INSERT INTO Clientes (cpf, nome) VALUES (?, ?);";
   }
 
   @Override
-  public Integer create(String cpf, String nome) {
+  public Integer create(Long cpf, String nome) {
     Connection connection = null;
     PreparedStatement stm = null;
 
@@ -25,23 +25,22 @@ public class ClienteDAO extends GenericDAO implements IClienteDAO {
       connection = ConnectionFactory.getInstance();
       String sql = getSqlCreate();
       stm = connection.prepareStatement(sql);
-      stm.setString(1, cpf);
-      stm.setString(1, nome);
+      stm.setLong(1, cpf);
+      stm.setString(2, nome);
       return stm.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     } finally {
-      closeConnection(connection, stm, null);
+      ConnectionFactory.closeConnection(connection, stm, null);
     }
   }
 
   private String getSqlRead() {
-    return "SELECT * FROM Clientes WHERE CPF = ?";
+    return "SELECT * FROM Clientes WHERE cpf = ?";
   }
 
   @Override
-  @SuppressWarnings("unchecked")
-  public Cliente read(String cpf) {
+  public Cliente read(Long cpf) {
     Connection connection = null;
     PreparedStatement stm = null;
     ResultSet rs = null;
@@ -51,18 +50,18 @@ public class ClienteDAO extends GenericDAO implements IClienteDAO {
       connection = ConnectionFactory.getInstance();
       String sql = getSqlRead();
       stm = connection.prepareStatement(sql);
-      stm.setLong(1, Long.parseLong(cpf));
+      stm.setLong(1, cpf);
       rs = stm.executeQuery();
       if (rs.next()) {
-        Long id = rs.getLong("ID");
-        String _cpf = rs.getString("CPF");
+        Long id = rs.getLong("ID_CLIENTE");
+        Long _cpf = rs.getLong("CPF");
         String nome = rs.getString("NOME");
         cliente = new Cliente(_cpf, nome, id);
       }
     } catch (SQLException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     } finally {
-      closeConnection(connection, stm, null);
+      ConnectionFactory.closeConnection(connection, stm, null);
     }
     return cliente;
   }
@@ -80,14 +79,14 @@ public class ClienteDAO extends GenericDAO implements IClienteDAO {
       connection = ConnectionFactory.getInstance();
       String sql = getSqlUpdate();
       stm = connection.prepareStatement(sql);
-      stm.setString(1, cliente.getCpf());
-      stm.setString(1, cliente.getNome());
-      stm.setLong(1, cliente.getId());
+      stm.setLong(1, cliente.getCpf());
+      stm.setString(2, cliente.getNome());
+      stm.setLong(3, cliente.getId());
       return stm.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     } finally {
-      closeConnection(connection, stm, null);
+      ConnectionFactory.closeConnection(connection, stm, null);
     }
   }
 
@@ -104,12 +103,12 @@ public class ClienteDAO extends GenericDAO implements IClienteDAO {
       connection = ConnectionFactory.getInstance();
       String sql = getSqlDelete();
       stm = connection.prepareStatement(sql);
-      stm.setString(1, cliente.getCpf());
+      stm.setLong(1, cliente.getCpf());
       return stm.executeUpdate();
     } catch (SQLException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     } finally {
-      closeConnection(connection, stm, null);
+      ConnectionFactory.closeConnection(connection, stm, null);
     }
   }
 
@@ -130,37 +129,18 @@ public class ClienteDAO extends GenericDAO implements IClienteDAO {
       stm = connection.prepareStatement(sql);
       rs = stm.executeQuery();
       while (rs.next()) {
-        Long id = rs.getLong("ID");
-        String cpf = rs.getString("CPF");
+        Long id = rs.getLong("ID_CLIENTE");
+        Long cpf = rs.getLong("CPF");
         String nome = rs.getString("NOME");
         Cliente cliente = new Cliente(cpf, nome, id);
         clientes.add(cliente);
       }
     } catch (SQLException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     } finally {
-      closeConnection(connection, stm, null);
+      ConnectionFactory.closeConnection(connection, stm, null);
     }
     return clientes;
   }
 
-  private void closeConnection(
-    Connection cn,
-    PreparedStatement stm,
-    ResultSet rs
-  ) {
-    try {
-      if (rs != null && !rs.isClosed()) {
-        rs.close();
-      }
-      if (stm != null && !stm.isClosed()) {
-        stm.close();
-      }
-      if (cn != null && !cn.isClosed()) {
-        cn.close();
-      }
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-  }
 }

@@ -4,9 +4,9 @@ import java.util.List;
 import loja.src.domain.Cliente;
 
 public interface IClienteDAO {
-  public Integer create(String cpf, String nome);
+  public Integer create(Long cpf, String nome);
 
-  public Cliente read(String id);
+  public Cliente read(Long cpf);
 
   public Integer update(Cliente cliente);
 

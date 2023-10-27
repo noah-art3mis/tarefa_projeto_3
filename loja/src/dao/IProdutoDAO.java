@@ -4,9 +4,9 @@ import java.util.List;
 import loja.src.domain.Produto;
 
 public interface IProdutoDAO {
-  public Integer create(String cpf, String nome);
+  public Integer create(String nome, Float preço);
 
-  public Produto read(String cpf);
+  public Produto read(String name);
 
   public Integer update(Produto produto);
 

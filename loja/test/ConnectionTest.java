@@ -4,10 +4,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.sql.Connection;
-
-import org.junit.Test;
-
 import loja.src.ConnectionFactory;
+import org.junit.Test;
 
 public class ConnectionTest {
 
